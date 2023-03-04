@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.openbsd.org.ru/vasyahacker/ii-go"
+	"git.openbsd.org.ru/vasyahacker/ii-go/ii"
 	"bytes"
 	"encoding/base64"
 	"errors"
