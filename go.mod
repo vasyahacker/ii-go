@@ -1,4 +1,4 @@
-module github.com/hugeping/ii-go
+module git.openbsd.org.ru/vasyahacker/ii-go
 
 go 1.16
 
