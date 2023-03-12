@@ -112,8 +112,8 @@ func main() {
 	www.Host = *host_opt
 	WebInit(&www)
 
-	fs := http.FileServer(http.Dir("lib"))
-	http.Handle("/lib/", http.StripPrefix("/lib/", fs))
+	fs := http.FileServer(http.Dir("style"))
+	http.Handle("/style/", http.StripPrefix("/style/", fs))
 
 	http.HandleFunc("/list.txt", func(w http.ResponseWriter, r *http.Request) {
 		echoes := db.Echoes(nil, ii.Query{})
