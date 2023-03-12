@@ -2,6 +2,7 @@ package main
 
 import (
 	"git.openbsd.org.ru/vasyahacker/ii-go/ii"
+	"os"
 	"bytes"
 	"encoding/base64"
 	"errors"
@@ -911,7 +912,19 @@ func WebInit(www *WWW) {
 			return false
 		},
 	}
-	www.tpl = template.Must(template.New("main").Funcs(funcMap).ParseGlob("tpl/*.tpl"))
+
+	tpl_path := "tpl"
+	if _, err := os.Stat(tpl_path); errors.Is(err, os.ErrNotExist) {
+		fmt.Println("./tpl dir not exist")
+		tpl_path = "/usr/local/share/ii-go/tpl"
+		if _, err := os.Stat(tpl_path); errors.Is(err, os.ErrNotExist) {
+		  fmt.Println(tpl_path, "dir not exist")
+		  os.Exit(1)
+		}
+	}
+
+	www.tpl = template.Must(
+		template.New("main").Funcs(funcMap).ParseGlob(tpl_path + "/*.tpl"))
 }
 
 func handleErr(ctx *WebContext, w http.ResponseWriter, err error) {
