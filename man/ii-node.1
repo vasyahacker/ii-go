@@ -1,0 +1,81 @@
+.TH ii-node 1  "March 12, 2023" "version 0.1.0" "II-GO"
+.SH NAME
+ii-node - is idec node
+.SH SYNOPSIS
+.B ii-node
+[options]
+.SH DESCRIPTION
+For run ii/idec node.
+.SH OPTIONS
+.TP
+-L
+Listen address, default is :8080
+.TP
+-db <path>
+Database, "db" by default
+.TP
+-e list
+Echos list file. This file needs only for descriptions and must be in list.txt format, where 2nd colum is ignored. When this file is exists, points can not create they own echos. (list.txt by default)
+.TP
+-host <string>
+Host string for node. (http://127.0.0.1:8080 by default)
+.TP
+-sys "name"
+Node name. "ii-go" by default
+.TP
+-u <points>
+Points file. "points.txt" by default.
+.TP
+-v
+Be verbose (for tracing)
+.SH STANDARTS SUPPORTED
+.TP
+.BI u/e
+.TP
+.BI list.txt
+.TP
+.BI x/c
+.TP
+.BI list.txt??????????????
+.TP
+.BI blacklist.txt
+.TP
+.BI m/
+.TP
+.BI e/
+.SH LIMITATIONS
+Size of message can not be greater then 65536 bytes (before encoded into base64).
+.SH WEB INTERFACE
+User with id 1 (first created user) is admin.
+.PP
+Admin can create new echoes with: http://127.0.0.1:8080/new 
+.PP
+Another hiden feature, is blacklisting: http://127.0.0.1:8080/msgid/blacklist
+.PP
+.TP
+Web interface supports some non-standart features in message body text:
+.nf
+@spolier: spoiler
+@base64: name (base64 data from next line till end of message)
+xpm2 and xpm3 images embedding
+.fi
+.SH RSS
+http://127.0.0.1:8080/echo/all/rss - All messages
+.PP
+http://127.0.0.1:8080/echo/echo.name/rss - By echo.name
+.PP
+http://127.0.0.1:8080/to/User/rss - For User
+.PP
+http://127.0.0.1:8080/from/User/rss - From User
+.SH EXAMPLES
+Fetch db and start node:
+.nf
+
+ii-tool fetch http://hugeping.tk	# get database from remote node
+ftp http://hugeping.tk/list.txt	# for echo descriptions
+ii-node -sys "newnode"			# run node with name "newnode"
+.fi
+.SH AUTHOR
+hugeping ( gl00my (at) mail.ru )
+.SH SEE ALSO
+ii-tool(1), ii-go(1), ii-gemini(1)

@@ -1,0 +1,122 @@
+.TH ii-tool 1  "March 12, 2023" "version 0.1.0" "II-GO"
+.SH NAME
+.B ii-tool
+.SH SYNOPSIS
+.B ii-tool
+[options] command [arguments]
+.SH DESCRIPTION
+.B ii-tool
+can be used to fetch messages from another node and maintaince database.
+.SH OPTIONS
+.TP
+.B FETCH MESSAGES
+.B ii-tool
+[options]
+.B fetch
+[uri] [echolist]
+.nf
+
+-db <database>
+  db by default (db.idx \- genetated index)
+
+-lim=<n>
+  fetch mode, if omitted full sync will be performed if needed
+  if n > 0 - last n messages synced
+  if n < 0 - adaptive fetching with step n will be performed
+
+-f
+  do not check last message, perform sync even it is not needed
+
+echolist is the file with echonames (can has : splitted columns, like list.txt)
+or '-' to load it from stdin
+
+If echolist is omitted, fetcher will try to get all echos.
+It uses list.txt extension of IDEC if target node supports it.
+.fi
+.TP
+.B CREATE INDEX
+.B ii-tool
+index
+.nf
+Index file (db.idx by default) is created when needed.
+If you want force to recreate it, use: ii-tool index
+.fi
+.TP
+.B STORE BUNDLE INTO DB
+.B ii-tool
+[options]
+.B store
+[DB]
+.nf
+
+You can merge records from DB to db with store command.
+
+-db <database>
+  db to store/merge in
+  db - is file with bundles or '-' for stdin.
+
+DB is just msgid:message bundles in base64 stored in text file.
+.fi
+.TP
+.B SHOW MESSAGES
+.nf
+Select messages:
+  ii-tool [options] select <echo.name> [slice]
+
+   slice is the start:limit
+
+Messages are identificated by unique message ids (MsgId).
+It is the first column in bundle: <msgid>:<message>
+
+Show selected message:
+  ii-tool [options] get <MsgId>
+
+Search message:
+  ii-tool [options] search <string> [echo]
+
+.B options:
+  -from <user>   -- from user
+  -to <user>     -- to user
+  -t             -- only topics (w/o repto)
+  -db <database> -- db by default (db.idx - genetated index)
+  -v             -- show message text, not only MsgId
+
+.fi
+.TP
+.B ADD USER (POINT)
+ii-tool [-u pointfile] useradd <name> <e-mail> <password>
+.nf
+
+By default, pointfile is points.txt
+.fi
+.TP
+.B BLACKLIST MSG
+ii-tool [-u pointfile] useradd <name> <e-mail> <password>
+.nf
+
+Blacklist is just new record with same id but spectial status.
+.fi
+
+.SH EXAMPLES
+.TP Get database from remote node and store to ./db
+ii-tool fetch http://hugeping.tk 
+.TP
+Fetch messages
+echo "std.club:this comment will be omitted" | ii-tool fetch http://127.0.0.1:8080 -
+.TP
+get last message
+ii-tool select std.club -1:1
+.TP
+get first 10 messages
+ii-tool select std.club 0:10
+.TP
+To show last 5 messages adressed to selected user (sort ids by date with sort command)
+ii-tool [options] -to <user> select "" | ii-tool sort | tail -n5 | ii-tool -v sort
+.TP
+???Show and print last message???
+ii-tool -v cc Peter -1:1
+
+.SH AUTHOR
+hugeping ( gl00my (at) mail.ru )
+.SH SEE ALSO
+ii-go(1), ii-node(1), ii-gemini(1)
