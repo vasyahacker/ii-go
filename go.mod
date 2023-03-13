@@ -1,4 +1,4 @@
-module git.openbsd.org.ru/vasyahacker/ii-go
+module github.com/vasyahacker/ii-go
 
 retract (
 	v1.0.0 // bad experiment.
