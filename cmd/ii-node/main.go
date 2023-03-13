@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.openbsd.org.ru/vasyahacker/ii-go/ii"
+	"github.com/vasyahacker/ii-go/ii"
 	"flag"
 	"fmt"
 	"html/template"
